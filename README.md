@@ -15,19 +15,21 @@ simple-twitter-stats is packaged as a fat executable JAR. To build the JAR:
 
 The packaged JAR will be located at `server/target/simple-twitter-stats-server-[version].jar`.
 
+Configuration
+-------------
+
+Reference configurations for logback and the application are located in `/server/src/main/resources/`.
+
 Running
 -------
 
 To run the application from the command line:
 
-    java -Dconfig.file=[path/to/application.conf] -Dlogback.configurationFile=path/to/logback.xml] -jar [path/to/executable/jar.jar]
+    java -jar [path/to/executable/jar.jar]
 
-There are two properties that should be specified for non-local environments:
+To provide your own configurations, create the appropriate configuration files and reference them as VM options when starting the app:
 
-* _config.file_: The path to the application configuration file.
-* _logback.configurationFile_: The path to the logging configuration file.
-
-If either of these properties are not defined, configurations suitable for local development (`server/src/main/resources/{application.conf, logback.xml}`) will be loaded by default.
+    java -jar -Dconfig.file=[path/to/application.conf] -Dlogback.configurationFile=path/to/logback.xml] 
 
 Usage
 -----
