@@ -1,0 +1,9 @@
+package com.mikemunhall.simpletwitterstats.model
+
+import java.time.LocalDateTime
+
+class BasicCounterRollingTimeSeriesMetrics[`scala.Long`](label: String, default: () => scala.Long) extends RollingTimeSeriesMetrics(label, default) {
+  def add(timestamp: LocalDateTime, obj: Any) = {
+    if (obj.asInstanceOf[Boolean]) values(timestamp.getHour)(timestamp.getMinute)(timestamp.getSecond) += 1
+  }
+}
