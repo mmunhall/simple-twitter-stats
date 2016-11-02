@@ -6,6 +6,9 @@ object TwitterTimeSeriesData {
   def apply() = new TwitterTimeSeriesData()
 }
 
+/**
+  * Contains all the metrics being tracked.
+  */
 class TwitterTimeSeriesData {
 
   val tweets = new BasicCounterRollingTimeSeriesMetrics("tweets", () => 0l)

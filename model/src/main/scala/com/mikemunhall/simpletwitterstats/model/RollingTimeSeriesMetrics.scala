@@ -3,8 +3,32 @@ package com.mikemunhall.simpletwitterstats.model
 import java.time.LocalDateTime
 import scala.collection.mutable
 
+/**
+  * A collection of 24-hour rolling metrics at second resolution.
+  *
+  * @param label
+  * @param default
+  * @tparam T
+  */
 abstract class RollingTimeSeriesMetrics[T](val label: String, default: () => T) {
 
+  /* Values[T] is a nested map. The outer map represents a rolling 24-hours. The first inner map represents the minutes
+     of each hour. The innermost map represents the seconds of each minute. The key of each map is an integer
+     representing the time part. The value for each key is a map for hours and minutes, and the metric value T for
+     seconds.
+
+     e.g.:
+       {
+         "0": {       // hours
+           "0": {     // minutes
+             "0": 10, // seconds
+             // ...
+             "59": 2
+           }
+         }
+       },
+       // ... for each hour
+  */
   type Values[T] = mutable.Map[Int, mutable.Map[Int, mutable.Map[Int, T]]]
 
   // TODO: Only the seconds map should be mutable. All other maps can be immutable.
