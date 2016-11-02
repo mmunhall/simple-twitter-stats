@@ -23,10 +23,10 @@ abstract class RollingTimeSeriesMetrics[T](val label: String, default: () => T) 
            "0": {     // minutes
              "0": 10, // seconds
              // ...
-             "59": 2
-           }
-         }
-       }, // ... for each hour
+             "59": 2  // ... each second of the minute
+           }          // ... for each minute of the hour
+         },           // ... for each hour
+       }
   */
   type Values[T] = mutable.Map[Int, mutable.Map[Int, mutable.Map[Int, T]]]
 
