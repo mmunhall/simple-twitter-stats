@@ -25,3 +25,4 @@
 logs/
 **/target
 **/personal.conf
+**/.DS_Store
