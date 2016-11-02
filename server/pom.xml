@@ -77,7 +77,21 @@
             <version>3.4.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- The Maven repo's version of this JAR is missing classes. WTF? For now, using the JAR in /lib. -->
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>4.0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-stream</artifactId>
+            <version>4.0.4</version>
+        </dependency>
     </dependencies>
+
+    <!-- TODO: Some of these plugins can be inherited from a parent -->
     <build>
         <plugins>
             <plugin>

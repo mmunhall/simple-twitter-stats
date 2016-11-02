@@ -20,6 +20,8 @@ Configuration
 
 Reference configurations for logback and the application are located in `/server/src/main/resources/`.
 
+TODO: Include info about Twitter OAuth configuration.
+
 Running
 -------
 

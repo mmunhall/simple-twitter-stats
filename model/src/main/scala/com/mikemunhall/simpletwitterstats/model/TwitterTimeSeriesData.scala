@@ -2,6 +2,10 @@ package com.mikemunhall.simpletwitterstats.model
 
 import scala.collection.mutable
 
+object TwitterTimeSeriesData {
+  def apply() = new TwitterTimeSeriesData()
+}
+
 class TwitterTimeSeriesData {
 
   val tweets = new BasicCounterRollingTimeSeriesMetrics("tweets", () => 0l)
