@@ -13,9 +13,6 @@ object Main extends App with StrictLogging {
   implicit val system = ActorSystem("simple-twitter-stats")
   val settings = Settings(system)
 
-  // timeSeriesData is a global object containing all metrics, stored in memory.
-  val timeSeriesData = TwitterTimeSeriesData()
-
   // Start Twitter client
   val parsingActor = system.actorOf(ParsingActor.props, "parsingActor")
   val twitterClient = BasicTwitterClient(parsingActor, settings)

@@ -95,5 +95,24 @@
                     id=3025612343
                 }
             ],
-            urlEntities=[URLEntityJSONImpl{url='', expandedURL='', displayURL=''}], hashtagEntities=[], mediaEntities=[], symbolEntities=[], currentUserRetweetId=-1, user=UserJSONImpl{id=434669817, name='Nov. 27th 🇭🇹👑', screenName='BoBanna__', location='Twenty Four Days', description='A & A 🇭🇹🇨🇦. Baby Haiti w| A Little Bit of Cuba 🇨🇺', isContributorsEnabled=false, profileImageUrl='http://pbs.twimg.com/profile_images/792598382871252992/2i5Vrt5M_normal.jpg', profileImageUrlHttps='https://pbs.twimg.com/profile_images/792598382871252992/2i5Vrt5M_normal.jpg', isDefaultProfileImage=false, url='null', isProtected=false, followersCount=1189, status=null, profileBackgroundColor='131516', profileTextColor='3D1957', profileLinkColor='981CEB', profileSidebarFillColor='7AC3EE', profileSidebarBorderColor='FFFFFF', profileUseBackgroundImage=true, isDefaultProfile=false, showAllInlineMedia=false, friendsCount=1100, createdAt=Sun Dec 11 21:58:02 MST 2011, favouritesCount=4127, utcOffset=-18000, timeZone='Central Time (US & Canada)', profileBackgroundImageUrl='http://pbs.twimg.com/profile_background_images/542156395441688576/HZ7K3Yrd.jpeg', profileBackgroundImageUrlHttps='https://pbs.twimg.com/profile_background_images/542156395441688576/HZ7K3Yrd.jpeg', profileBackgroundTiled=true, lang='en', statusesCount=51412, isGeoEnabled=true, isVerified=false, translator=false, listedCount=1, isFollowRequestSent=false, withheldInCountries=null}, withHeldInCountries=null, quotedStatusId=-1, quotedStatus=null}
+            urlEntities=[
+                {
+                    url='',
+                    expandedURL='',
+                    displayURL=''
+                }
+            ],
+            hashtagEntities=[],
+            mediaEntities=[],
+            symbolEntities=[],
+            currentUserRetweetId=-1,
+            user={
+                id=434669817,
+                name='Nov. 27th 🇭🇹👑',
+                screenName='BoBanna__',
+                location='Twenty Four Days',
+                description='A & A 🇭🇹🇨🇦. Baby Haiti w| A Little Bit of Cuba 🇨🇺',
+                isContributorsEnabled=false,
+                profileImageUrl='http://pbs.twimg.com/profile_images/792598382871252992/2i5Vrt5M_normal.jpg',
+                profileImageUrlHttps='https://pbs.twimg.com/profile_images/792598382871252992/2i5Vrt5M_normal.jpg', isDefaultProfileImage=false, url='null', isProtected=false, followersCount=1189, status=null, profileBackgroundColor='131516', profileTextColor='3D1957', profileLinkColor='981CEB', profileSidebarFillColor='7AC3EE', profileSidebarBorderColor='FFFFFF', profileUseBackgroundImage=true, isDefaultProfile=false, showAllInlineMedia=false, friendsCount=1100, createdAt=Sun Dec 11 21:58:02 MST 2011, favouritesCount=4127, utcOffset=-18000, timeZone='Central Time (US & Canada)', profileBackgroundImageUrl='http://pbs.twimg.com/profile_background_images/542156395441688576/HZ7K3Yrd.jpeg', profileBackgroundImageUrlHttps='https://pbs.twimg.com/profile_background_images/542156395441688576/HZ7K3Yrd.jpeg', profileBackgroundTiled=true, lang='en', statusesCount=51412, isGeoEnabled=true, isVerified=false, translator=false, listedCount=1, isFollowRequestSent=false, withheldInCountries=null}, withHeldInCountries=null, quotedStatusId=-1, quotedStatus=null}
 java.net.MalformedURLException: no protocol:

@@ -13,6 +13,9 @@ object ParsingActor {
 
 class ParsingActor extends Actor with Stash with StrictLogging with ParseUtil {
   import com.mikemunhall.simpletwitterstats.server.ParsingActor.Parse
+  import com.mikemunhall.simpletwitterstats.server.PersistingActor.Persist
+
+  val persistingActor = context.actorOf(PersistingActor.props, "persistingActor")
 
   self ! "initialize"
 
@@ -32,10 +35,11 @@ class ParsingActor extends Actor with Stash with StrictLogging with ParseUtil {
     case Parse(status) =>
       val tweet = Tweet(
         dateToLocalDateTime(status.getCreatedAt),
-        List(),
+        emojisFromText(status.getText),
         status.getHashtagEntities.map(_.getText).toList,
-        status.getURLEntities.map(_.getExpandedURL).filterNot(_ == "").map(domainFromUrl(_)).toList
+        status.getURLEntities.map(_.getExpandedURL).filterNot(_ == "").map(domainFromUrl(_)).toList,
+        status.getURLEntities.map(_.getExpandedURL).filter(d => d.contains("pic.twitter") || d.contains("instagram")).map(domainFromUrl(_)).toList
       )
-      println(tweet) // TODO: Remove me. Just debugging.
+      persistingActor ! Persist(tweet)
   }
 }

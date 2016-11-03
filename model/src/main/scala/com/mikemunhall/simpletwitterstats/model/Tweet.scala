@@ -9,5 +9,6 @@ import java.time.LocalDateTime
   * @param emojis
   * @param hashtags
   * @param domains
+  * @param photoDomains
   */
-case class Tweet(timestamp: LocalDateTime, emojis: List[String], hashtags: List[String], domains: List[String])
+case class Tweet(timestamp: LocalDateTime, emojis: List[String], hashtags: List[String], domains: List[String], photoDomains: List[String])
