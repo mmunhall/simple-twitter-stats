@@ -17,7 +17,7 @@
     "tweetPercentage": 31,
     "photo": {
       "top": ["top0", "top1", "top2", "top3", "top4", "top5", "top6", "top7", "top8", "top9"],
-      "tweetPercentage": 3,
+      "tweetPercentage": 3
     }
   }
 }
