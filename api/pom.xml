@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mikemunhall.simple-twitter-stats</groupId>
-    <artifactId>server</artifactId>
+    <artifactId>api</artifactId>
     <packaging>jar</packaging>
     <version>0.0.1</version>
 
@@ -14,12 +14,6 @@
         <dependency>
             <groupId>com.mikemunhall.simple-twitter-stats</groupId>
             <artifactId>model</artifactId>
-            <version>0.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.mikemunhall.simple-twitter-stats</groupId>
-            <artifactId>api</artifactId>
             <version>0.0.1</version>
             <scope>compile</scope>
         </dependency>
@@ -158,33 +152,6 @@
                         <goals>
                             <goal>test</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
-                <executions>
-                    <!-- Run shade goal on package phase -->
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <outputFile>target/simple-twitter-stats-server-${project.version}.jar</outputFile>
-                            <transformers>
-                                <!-- add Main-Class to manifest file -->
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.mikemunhall.simpletwitterstats.server.Main</mainClass>
-                                </transformer>
-                                <!-- Append all reference.conf files so only one exists in the end. -->
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>reference.conf</resource>
-                                </transformer>
-                            </transformers>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
