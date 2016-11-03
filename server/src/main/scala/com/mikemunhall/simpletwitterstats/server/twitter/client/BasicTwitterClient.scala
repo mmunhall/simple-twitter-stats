@@ -1,8 +1,8 @@
 package com.mikemunhall.simpletwitterstats.server.twitter.client
 
 import akka.actor.ActorRef
+import com.mikemunhall.simpletwitterstats.Settings
 import com.mikemunhall.simpletwitterstats.server.ParsingActor.Parse
-import com.mikemunhall.simpletwitterstats.server.Settings
 import com.typesafe.scalalogging.StrictLogging
 import twitter4j._
 import twitter4j.conf.ConfigurationBuilder

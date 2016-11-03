@@ -1,4 +1,4 @@
-package com.mikemunhall.simpletwitterstats.server
+package com.mikemunhall.simpletwitterstats
 
 import akka.actor.{ActorContext, ExtendedActorSystem, Extension, ExtensionId, ExtensionIdProvider}
 import com.typesafe.config.Config
@@ -12,10 +12,10 @@ object Settings extends ExtensionId[Settings] with ExtensionIdProvider {
 
 class Settings(config: Config, extendedSystem: ExtendedActorSystem) extends Extension {
 
-  object Client {
+  object API {
     object Http {
-      val Port = config.getInt("simple-twitter-stats.client.http.port")
-      val Interface = config.getString("simple-twitter-stats.client.http.interface")
+      val Port = config.getInt("simple-twitter-stats.api.http.port")
+      val Interface = config.getString("simple-twitter-stats.api.http.interface")
     }
   }
 
