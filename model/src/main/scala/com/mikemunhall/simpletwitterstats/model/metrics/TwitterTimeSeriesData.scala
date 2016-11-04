@@ -38,7 +38,9 @@ class TwitterTimeSeriesData {
     val f7 = Future { hashtags.add(tweet.timestamp, tweet.hashtags) }
     val f8 = Future { domains.add(tweet.timestamp, tweet.domains) }
 
-    // Parallelize the update to each metric, but await results. This is necessary (for now) because the time series maps are not thread safe.
+    // Parallelize the update to each metric, but await results. This is necessary (for now) because the time series maps are not thread safe,
+    // not to mention that to keep stats accurate we we have to ensure each metric is updated for a particular tweet before moving on to the
+    // next tweet.
     for {
       f1Result <- f1
       f2Result <- f2
