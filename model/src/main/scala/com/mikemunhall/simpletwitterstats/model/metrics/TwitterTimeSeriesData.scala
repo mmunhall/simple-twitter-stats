@@ -1,5 +1,7 @@
 package com.mikemunhall.simpletwitterstats.model.metrics
 
+import java.time.LocalDateTime
+
 import scala.collection.mutable
 
 object TwitterTimeSeriesData {
@@ -11,6 +13,9 @@ object TwitterTimeSeriesData {
   */
 class TwitterTimeSeriesData {
 
+  var startTimestamp = LocalDateTime.now
+  var endTimestamp = LocalDateTime.now
+
   val tweets = new BasicCounterRollingTimeSeriesMetrics("tweets", () => 0l)
   val tweetsWithEmojis = new ListLenCounterRollingTimeSeriesMetrics("tweetsWithEmojis", () => 0l)
   val tweetsWithUrls = new ListLenCounterRollingTimeSeriesMetrics("tweetsWithUrls", () => 0l)
@@ -20,6 +25,12 @@ class TwitterTimeSeriesData {
   val domains = new OccurrenceRollingTimeSeriesMetrics("domains", () => mutable.Map[String, Long]())
 
   def add(tweet: Tweet) = {
+    if (tweet.timestamp.isBefore(startTimestamp))
+      startTimestamp = tweet.timestamp
+
+    if (tweet.timestamp.isAfter(endTimestamp))
+      endTimestamp =  tweet.timestamp
+
     tweets.add(tweet.timestamp, true)
     tweetsWithEmojis.add(tweet.timestamp, tweet.emojis)
     tweetsWithUrls.add(tweet.timestamp, tweet.domains)
