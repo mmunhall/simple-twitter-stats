@@ -34,6 +34,7 @@ class ParsingActor extends Actor with Stash with StrictLogging with ParseUtil {
   def initialized: Receive = {
     case Parse(status) =>
       val tweet = Tweet(
+        status.getId,
         dateToLocalDateTime(status.getCreatedAt),
         emojisFromText(status.getText),
         status.getHashtagEntities.map(_.getText).toList,

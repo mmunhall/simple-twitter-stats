@@ -5,10 +5,11 @@ import java.time.LocalDateTime
 /**
   * Contains the parsed elements of a Twitter status, each of which are tracked by one or more RollingTimeSeriesMetrics.
   *
+  * @param id
   * @param timestamp
   * @param emojis
   * @param hashtags
   * @param domains
   * @param photoDomains
   */
-case class Tweet(timestamp: LocalDateTime, emojis: List[String], hashtags: List[String], domains: List[String], photoDomains: List[String])
+case class Tweet(id: Long, timestamp: LocalDateTime, emojis: List[String], hashtags: List[String], domains: List[String], photoDomains: List[String])

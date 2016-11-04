@@ -1,8 +1,9 @@
 package com.mikemunhall.simpletwitterstats.model.metrics
 
 import java.time.LocalDateTime
-
 import scala.collection.mutable
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object TwitterTimeSeriesData {
   def apply() = new TwitterTimeSeriesData()
@@ -25,19 +26,29 @@ class TwitterTimeSeriesData {
   val domains = new OccurrenceRollingTimeSeriesMetrics("domains", () => mutable.Map[String, Long]())
 
   def add(tweet: Tweet) = {
-    if (tweet.timestamp.isBefore(startTimestamp))
-      startTimestamp = tweet.timestamp
+    val f1 = Future {
+      if (tweet.timestamp.isBefore(startTimestamp)) startTimestamp = tweet.timestamp // TODO: This is not accurate. It will be incorrect when the 24-hour period rolls
+      if (tweet.timestamp.isAfter(endTimestamp)) endTimestamp = tweet.timestamp
+    }
+    val f2 = Future { tweets.add(tweet.timestamp, true) }
+    val f3 = Future { tweetsWithEmojis.add(tweet.timestamp, tweet.emojis) }
+    val f4 = Future { tweetsWithUrls.add(tweet.timestamp, tweet.domains) }
+    val f5 = Future { tweetsWithPhotoUrls.add(tweet.timestamp, tweet.photoDomains) }
+    val f6 = Future { emojis.add(tweet.timestamp, tweet.emojis) }
+    val f7 = Future { hashtags.add(tweet.timestamp, tweet.hashtags) }
+    val f8 = Future { domains.add(tweet.timestamp, tweet.domains) }
 
-    if (tweet.timestamp.isAfter(endTimestamp))
-      endTimestamp =  tweet.timestamp
-
-    tweets.add(tweet.timestamp, true)
-    tweetsWithEmojis.add(tweet.timestamp, tweet.emojis)
-    tweetsWithUrls.add(tweet.timestamp, tweet.domains)
-    tweetsWithPhotoUrls.add(tweet.timestamp, tweet.photoDomains)
-    emojis.add(tweet.timestamp, tweet.emojis)
-    hashtags.add(tweet.timestamp, tweet.hashtags)
-    domains.add(tweet.timestamp, tweet.domains)
+    // Parallelize the update to each metric, but await results. This is necessary (for now) because the time series maps are not thread safe.
+    for {
+      f1Result <- f1
+      f2Result <- f2
+      f3Result <- f3
+      f4Result <- f4
+      f5Result <- f5
+      f6Result <- f6
+      f7Result <- f7
+      f8Result <- f8
+    } yield Unit // TODO: Expect failures and deal with them properly
   }
 
 }
