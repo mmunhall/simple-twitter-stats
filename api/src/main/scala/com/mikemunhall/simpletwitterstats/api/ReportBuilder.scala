@@ -17,12 +17,12 @@ object ReportBuilder {
     val minutesBetween = MINUTES.between(timeSeriesData.startTimestamp, timeSeriesData.endTimestamp)
     val hoursBetween = HOURS.between(timeSeriesData.startTimestamp, timeSeriesData.endTimestamp)
 
-    // TODO: This can be more accurate by using doubles and just multiplying
+    // TODO: This can be more accurate by using Double instead of Int
     // TODO: Parallelize these...
     val totalTweets = calculateTotalTweets
     val tweetsPerSecond = if (secondsBetween != 0) totalTweets / secondsBetween else 0
-    val tweetsPerMinute = if (minutesBetween != 0) totalTweets / minutesBetween else 0
-    val tweetsPerHour = if (hoursBetween != 0) totalTweets / hoursBetween else 0
+    val tweetsPerMinute = tweetsPerSecond * 60
+    val tweetsPerHour = tweetsPerMinute * 24
 
     val allHashTags = calculateOccurrenceItem(timeSeriesData.hashtags.values)
     val topHashTags = ListMap(allHashTags.toSeq.sortWith(_._2 > _._2):_*).take(10).keys.toList
