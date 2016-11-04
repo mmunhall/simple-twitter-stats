@@ -1,6 +1,9 @@
 package com.mikemunhall.simpletwitterstats.model
 
 import java.time.LocalDateTime
+
+import com.mikemunhall.simpletwitterstats.model.metrics.OccurrenceRollingTimeSeriesMetrics
+
 import scala.collection.mutable
 
 class OccurrenceCounterRollingTimeSeriesMetricsSpec extends UnitSpec {

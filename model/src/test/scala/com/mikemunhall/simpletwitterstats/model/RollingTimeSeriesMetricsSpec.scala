@@ -2,6 +2,8 @@ package com.mikemunhall.simpletwitterstats.model
 
 import java.time.LocalDateTime
 
+import com.mikemunhall.simpletwitterstats.model.metrics.RollingTimeSeriesMetrics
+
 class RollingTimeSeriesMetricsSpec extends UnitSpec {
 
   "RollingTimeSeriesMetrics implementations" should "be initialized with 24-hours of slots at 1-second resolution" in {

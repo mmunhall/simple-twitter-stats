@@ -2,6 +2,8 @@ package com.mikemunhall.simpletwitterstats.model
 
 import java.time.LocalDateTime
 
+import com.mikemunhall.simpletwitterstats.model.metrics.ListLenCounterRollingTimeSeriesMetrics
+
 class ListLenCounterRollingTimeSeriesMetricsSpec extends UnitSpec {
 
   "ListLenCounterRollingTimeSeriesMetrics" should "increment in the correct slot" in {

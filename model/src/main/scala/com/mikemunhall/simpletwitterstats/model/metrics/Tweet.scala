@@ -1,4 +1,4 @@
-package com.mikemunhall.simpletwitterstats.model
+package com.mikemunhall.simpletwitterstats.model.metrics
 
 import java.time.LocalDateTime
 

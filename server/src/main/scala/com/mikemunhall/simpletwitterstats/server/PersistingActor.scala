@@ -1,7 +1,7 @@
 package com.mikemunhall.simpletwitterstats.server
 
 import akka.actor.{Actor, Props, Stash}
-import com.mikemunhall.simpletwitterstats.model.Tweet
+import com.mikemunhall.simpletwitterstats.model.metrics.Tweet
 import com.mikemunhall.simpletwitterstats.server.util.ParseUtil
 import com.typesafe.scalalogging.StrictLogging
 

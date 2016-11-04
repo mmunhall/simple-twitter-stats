@@ -1,6 +1,6 @@
 package com.mikemunhall
 
-import com.mikemunhall.simpletwitterstats.model.TwitterTimeSeriesData
+import com.mikemunhall.simpletwitterstats.model.metrics.TwitterTimeSeriesData
 
 package object simpletwitterstats {
 
