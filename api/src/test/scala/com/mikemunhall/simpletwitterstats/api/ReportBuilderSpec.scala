@@ -19,6 +19,22 @@ class ReportBuilderSpec extends UnitSpec {
     timeSeriesData.hashtags.add(timestamp2, List("C", "D"))
     timeSeriesData.hashtags.add(timestamp2, List("E", "B"))
     timeSeriesData.hashtags.add(timestamp3, List("B", "B", "B"))
+    timeSeriesData.tweetsWithHashtags.add(timestamp1, List("A", "C"))
+    timeSeriesData.tweetsWithHashtags.add(timestamp1, List("A", "B", "C"))
+    timeSeriesData.tweetsWithHashtags.add(timestamp1, List("A"))
+    timeSeriesData.tweetsWithHashtags.add(timestamp2, List("C", "D"))
+    timeSeriesData.tweetsWithHashtags.add(timestamp2, List("C", "D"))
+    timeSeriesData.tweetsWithHashtags.add(timestamp2, List("E", "B"))
+    timeSeriesData.tweetsWithHashtags.add(timestamp3, List("B", "B", "B"))
+    timeSeriesData.tweets.add(timestamp1, true)
+    timeSeriesData.tweets.add(timestamp1, true)
+    timeSeriesData.tweets.add(timestamp1, true)
+    timeSeriesData.tweets.add(timestamp2, true)
+    timeSeriesData.tweets.add(timestamp2, true)
+    timeSeriesData.tweets.add(timestamp2, true)
+    timeSeriesData.tweets.add(timestamp3, true)
+    timeSeriesData.tweets.add(timestamp3, true)
+    timeSeriesData.tweets.add(timestamp3, true)
   }
 
   "ReportBuilder" should "list top hashtags in order of occurrence" in new Fixtures {

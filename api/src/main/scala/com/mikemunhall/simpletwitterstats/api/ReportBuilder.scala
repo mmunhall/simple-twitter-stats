@@ -25,18 +25,46 @@ object ReportBuilder {
     val tweetsPerHour = tweetsPerMinute * 24
 
     val allHashTags = calculateOccurrenceItem(timeSeriesData.hashtags.values)
-    val topHashTags = ListMap(allHashTags.toSeq.sortWith(_._2 > _._2):_*).take(10).keys.toList
-
+    val allDomains = calculateOccurrenceItem(timeSeriesData.domains.values)
     val allEmojis = calculateOccurrenceItem(timeSeriesData.emojis.values)
+
+    val topHashTags = ListMap(allHashTags.toSeq.sortWith(_._2 > _._2):_*).take(10).keys.toList
+    val topDomains = ListMap(allDomains.toSeq.sortWith(_._2 > _._2):_*).take(10).keys.toList
     val topEmojis = ListMap(allEmojis.toSeq.sortWith(_._2 > _._2):_*).take(10).keys.toList
 
-    val allDomains = calculateOccurrenceItem(timeSeriesData.domains.values)
-    val topDomains = ListMap(allDomains.toSeq.sortWith(_._2 > _._2):_*).take(10).keys.toList
-
     // TODO: Generalize/externalize the filter values
-    val topPhotoDomains = ListMap(allDomains.toSeq.sortWith(_._2 > _._2):_*).filter(d => d._1.contains("pic.twitter") || d._1.contains("instagram")).take(10).keys.toList
+    val allPhotoDomains = ListMap(allDomains.toSeq.sortWith(_._2 > _._2):_*).filter(d => d._1.contains("pic.twitter") || d._1.contains("instagram"))
+    val topPhotoDomains = allPhotoDomains.take(10).keys.toList
 
-    Report(Header(startTimestamp, endTimestamp), totalTweets, tweetsPerSecond, tweetsPerMinute, tweetsPerHour, Occurrence(topEmojis, 0), Occurrence(topHashTags, 0), Occurrence(topDomains, 0), Occurrence(topPhotoDomains, 0))
+    val tweetsWithHashtags = calculateCounterItem(timeSeriesData.tweetsWithHashtags.values)
+    val percentWithHashtags = (BigDecimal(tweetsWithHashtags.toDouble / totalTweets.toDouble) * 100).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
+
+    val tweetsWithUrls = calculateCounterItem(timeSeriesData.tweetsWithUrls.values)
+    val percentWithUrls = (BigDecimal(tweetsWithUrls.toDouble / totalTweets.toDouble) * 100).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
+
+    val tweetsWithPhotoUrls = calculateCounterItem(timeSeriesData.tweetsWithPhotoUrls.values)
+    val percentWithPhotoUrls = (BigDecimal(tweetsWithPhotoUrls.toDouble / totalTweets.toDouble) * 100).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
+
+    Report(
+      Header(startTimestamp, endTimestamp),
+      totalTweets,
+      tweetsPerSecond,
+      tweetsPerMinute,
+      tweetsPerHour,
+      Occurrence(topEmojis, 0),
+      Occurrence(topHashTags, percentWithHashtags),
+      Occurrence(topDomains, percentWithUrls),
+      Occurrence(topPhotoDomains, percentWithPhotoUrls))
+  }
+
+  private def calculateCounterItem(items: RollingTimeSeriesMetrics.Values[Long]): Long = {
+    val ht = for {
+      h <- items.values
+      m <- h.values
+      s <- m.values
+    } yield s
+
+    ht.sum
   }
 
   private def calculateOccurrenceItem(items: RollingTimeSeriesMetrics.Values[scala.collection.mutable.Map[String, Long]]) = {
