@@ -57,4 +57,13 @@ To provide your own configurations, create the appropriate configuration files a
 Usage
 -----
 
-TODO
+When the application starts, a server will be started that collects Twitter statuses.
+
+A simple REST service becomes available to get aggregated statistical information about all the tweets collected.
+
+### API ###
+
+**Stats**: Retrieves aggregated statistics collected over, at maximum, a 24-hour period.
+
+GET _/api/0.0.1/stats_
+
