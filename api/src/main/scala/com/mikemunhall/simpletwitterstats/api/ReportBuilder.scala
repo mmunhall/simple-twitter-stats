@@ -10,12 +10,12 @@ import scala.collection.immutable.ListMap
 object ReportBuilder {
 
   def build: Report = {
-    val startTimestamp = timeSeriesData.startTimestamp.toString
-    val endTimestamp = timeSeriesData.endTimestamp.toString
+    val startTimestamp = timeSeriesData.startDateTime.toString
+    val endTimestamp = timeSeriesData.endDateTime.toString
 
-    val secondsBetween = SECONDS.between(timeSeriesData.startTimestamp, timeSeriesData.endTimestamp)
-    val minutesBetween = MINUTES.between(timeSeriesData.startTimestamp, timeSeriesData.endTimestamp)
-    val hoursBetween = HOURS.between(timeSeriesData.startTimestamp, timeSeriesData.endTimestamp)
+    val secondsBetween = SECONDS.between(timeSeriesData.startDateTime, timeSeriesData.endDateTime)
+    val minutesBetween = MINUTES.between(timeSeriesData.startDateTime, timeSeriesData.endDateTime)
+    val hoursBetween = HOURS.between(timeSeriesData.startDateTime, timeSeriesData.endDateTime)
 
     // TODO: This can be more accurate by using Double instead of Int
     // TODO: Parallelize these...

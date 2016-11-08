@@ -12,10 +12,10 @@ object TwitterTimeSeriesData {
 /**
   * Contains all the metrics being tracked.
   */
-class TwitterTimeSeriesData {
+class TwitterTimeSeriesData extends RollingDateTimeCalculations{
 
-  var startTimestamp = LocalDateTime.now
-  var endTimestamp = LocalDateTime.now
+  var startDateTime = LocalDateTime.now
+  var endDateTime = LocalDateTime.now
 
   val tweets = new BasicCounterRollingTimeSeriesMetrics("tweets", () => 0l)
   val tweetsWithEmojis = new ListLenCounterRollingTimeSeriesMetrics("tweetsWithEmojis", () => 0l)
@@ -28,8 +28,10 @@ class TwitterTimeSeriesData {
 
   def add(tweet: Tweet) = {
     val f1 = Future {
-      if (tweet.timestamp.isBefore(startTimestamp)) startTimestamp = tweet.timestamp // TODO: This is not accurate. It will be incorrect when the 24-hour period rolls
-      if (tweet.timestamp.isAfter(endTimestamp)) endTimestamp = tweet.timestamp
+      // an accurate start date requires the end date to be set first to account for a possible 24-hour roll,
+      // so set the end date first
+      endDateTime = calculateNewEndDateTime(tweet.timestamp, endDateTime)
+      startDateTime = calculateNewStartDateTime(tweet.timestamp, startDateTime, endDateTime)
     }
     val f2 = Future { tweets.add(tweet.timestamp, true) }
     val f3 = Future { tweetsWithEmojis.add(tweet.timestamp, tweet.emojis) }
@@ -41,7 +43,7 @@ class TwitterTimeSeriesData {
     val f9 = Future { domains.add(tweet.timestamp, tweet.domains) }
 
     // Parallelize the update to each metric, but await results. Awaiting is necessary (for now) because the time series maps are not thread safe,
-    // not to mention that to keep stats accurate we we have to ensure each metric is updated for a particular tweet before moving on to the
+    // not to mention that to keep stats accurate wgit e we have to ensure each metric is updated for a particular tweet before moving on to the
     // next tweet.
     for {
       f1Result <- f1

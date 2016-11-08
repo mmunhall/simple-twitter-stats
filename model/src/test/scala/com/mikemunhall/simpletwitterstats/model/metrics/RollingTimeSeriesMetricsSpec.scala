@@ -1,8 +1,8 @@
-package com.mikemunhall.simpletwitterstats.model
+package com.mikemunhall.simpletwitterstats.model.metrics
 
 import java.time.LocalDateTime
 
-import com.mikemunhall.simpletwitterstats.model.metrics.RollingTimeSeriesMetrics
+import com.mikemunhall.simpletwitterstats.model.UnitSpec
 
 class RollingTimeSeriesMetricsSpec extends UnitSpec {
 
