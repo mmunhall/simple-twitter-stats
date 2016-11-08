@@ -7,7 +7,9 @@ package com.mikemunhall.simpletwitterstats.model.reports
 */
 
 case class Header(startTimestamp: String, endTimestamp: String) // TODO: Write an entity marshaler for LocalDateTime
+
 case class Occurrence(top: List[String], percentage: Double)
+
 case class Report(
   report: Header,
   totalTweets: Long,
