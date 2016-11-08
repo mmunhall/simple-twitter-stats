@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit._
 
 import scala.collection.immutable.ListMap
 
+// TODO: This is a wreck. Please refactor.
 object ReportBuilder {
 
   def build: Report = {
