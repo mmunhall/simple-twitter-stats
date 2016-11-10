@@ -3,8 +3,11 @@ package com.mikemunhall.simpletwitterstats.server.util
 import java.time.{Instant, LocalDateTime, ZoneId}
 import java.util.Date
 import java.net.URL
+import java.text.BreakIterator
+
 import com.typesafe.scalalogging.StrictLogging
 import org.json4s.native.JsonMethods._
+
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
 
@@ -21,28 +24,41 @@ trait ParseUtil extends StrictLogging {
     new URL(url).getHost
   }
 
-  // TODO: Not working, and in any case is too ineffecient.
+  // TODO: Terribly inefficient and brute force. Cleanup, refactor.
   def emojisFromText(text: String): List[String] = {
-    /*val emojis = ListBuffer[String]()
+    val boundary = BreakIterator.getCharacterInstance();
+    boundary setText text
+
+    val normalized = new ListBuffer[String]()
+    var start = boundary.first()
+    var end = boundary.next()
+    while (end != BreakIterator.DONE) {
+      normalized += text.substring(start,end)
+      start = end
+      end = boundary.next()
+    }
+
+    val emojisList = new ListBuffer[String]()
     emojiMap.keys.foreach(k => {
-      val count = text.count(_ == k.toCharArray()(0))
-      for(i <- 1 to count) {
-        emojis += emojiMap(k)
-      }
+      normalized.foreach(ns => {
+        if (k == ns) {
+          emojisList += emojiMap(k)
+        }
+      })
     })
-    emojis.toList*/
-    List()
+
+    emojisList.toList
   }
 
-  // TODO: Not entirely sure code points are being mapped correctly.
+  // TODO: This is very brute force. Cleanup, refactor.
   private def makeMap(): Map[String, String] = {
-    val json = parse(Source.fromURL(getClass.getResource("/emoji.json")).mkString) // TODO: Externalize reference to emoji data
-    val k = (json \ "unified").values.asInstanceOf[List[String]].map(e => {
-      val codepoints = e.split("-").map(str => Integer.parseInt(str, 16))
-      new String(codepoints, 0, codepoints.length)
+    val json = parse(Source.fromURL(getClass.getResource("/emoji.json")).mkString)
+    val emojiStrings = (json \ "unified").values.asInstanceOf[List[String]].map(e => {
+      val points = e.split("-").map(str => Integer.parseInt(str, 16))
+      new String(points, 0, points.length)
     })
-    val v = (json \ "name").values.asInstanceOf[List[String]]
-    val zipped = k zip v
-    zipped.par.foldLeft(Map[String, String]())((acc, v) => acc + (v._1 -> v._2))
+    val emojiNames = (json \ "name").values.asInstanceOf[List[String]]
+    val lookupMap = emojiStrings zip emojiNames
+    lookupMap.par.foldLeft(Map[String, String]())((acc, v) => acc + (v._1 -> v._2))
   }
 }

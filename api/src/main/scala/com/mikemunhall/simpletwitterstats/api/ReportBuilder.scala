@@ -46,13 +46,16 @@ object ReportBuilder {
     val tweetsWithPhotoUrls = calculateCounterItem(timeSeriesData.tweetsWithPhotoUrls.values)
     val percentWithPhotoUrls = (BigDecimal(tweetsWithPhotoUrls.toDouble / totalTweets.toDouble) * 100).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
 
+    val tweetsWithEmojis = calculateCounterItem(timeSeriesData.tweetsWithEmojis.values)
+    val percentWithEmojis = (BigDecimal(tweetsWithEmojis.toDouble / totalTweets.toDouble) * 100).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
+
     Report(
       Header(startTimestamp, endTimestamp),
       totalTweets,
       tweetsPerSecond,
       tweetsPerMinute,
       tweetsPerHour,
-      Occurrence(topEmojis, 0),
+      Occurrence(topEmojis, percentWithEmojis),
       Occurrence(topHashTags, percentWithHashtags),
       Occurrence(topDomains, percentWithUrls),
       Occurrence(topPhotoDomains, percentWithPhotoUrls))
