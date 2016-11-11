@@ -32,13 +32,15 @@ class ParsingActor extends Actor with Stash with StrictLogging with ParseUtil {
 
   def initialized: Receive = {
     case Parse(status) =>
+      val urlEntities = status.getURLEntities
       val tweet = Tweet(
         status.getId,
         dateToLocalDateTime(status.getCreatedAt),
         emojisFromText(status.getText),
         status.getHashtagEntities.map(_.getText).toList,
-        status.getURLEntities.map(_.getExpandedURL).filterNot(_ == "").map(domainFromUrl(_)).toList,
-        status.getURLEntities.map(_.getExpandedURL).filter(d => d.contains("pic.twitter") || d.contains("instagram")).map(domainFromUrl(_)).toList
+        urlEntities.map(_.getExpandedURL).filterNot(_ == "").map(domainFromUrl(_)).toList,
+        // TODO: Externalize the domain filter
+        urlEntities.map(_.getExpandedURL).filter(d => d.contains("pic.twitter") || d.contains("instagram")).map(domainFromUrl(_)).toList
       )
       persistingActor ! Persist(tweet)
   }
