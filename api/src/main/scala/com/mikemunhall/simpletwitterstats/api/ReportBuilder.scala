@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap
 import collection.JavaConverters._
 import scala.collection.immutable.ListMap
 
-// TODO: This is a wreck. Please refactor.
+// TODO: This is a wreck. Please refactor. Parallelize.
 object ReportBuilder {
 
   def build: Report = {
@@ -20,7 +20,6 @@ object ReportBuilder {
     val hoursBetween = HOURS.between(timeSeriesData.startDateTime, timeSeriesData.endDateTime)
 
     // TODO: This can be more accurate by using Double instead of Int
-    // TODO: Parallelize all dis...
     val totalTweets = calculateTotalTweets
     val tweetsPerSecond = if (secondsBetween != 0) totalTweets / secondsBetween else 0
     val tweetsPerMinute = tweetsPerSecond * 60
