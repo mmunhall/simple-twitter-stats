@@ -4,7 +4,8 @@ import com.mikemunhall.simpletwitterstats.timeSeriesData
 import com.mikemunhall.simpletwitterstats.model.metrics.RollingTimeSeriesMetrics
 import com.mikemunhall.simpletwitterstats.model.reports.{Header, Occurrence, Report}
 import java.time.temporal.ChronoUnit._
-
+import java.util.concurrent.ConcurrentHashMap
+import collection.JavaConverters._
 import scala.collection.immutable.ListMap
 
 // TODO: This is a wreck. Please refactor.
@@ -19,7 +20,7 @@ object ReportBuilder {
     val hoursBetween = HOURS.between(timeSeriesData.startDateTime, timeSeriesData.endDateTime)
 
     // TODO: This can be more accurate by using Double instead of Int
-    // TODO: Parallelize these...
+    // TODO: Parallelize all dis...
     val totalTweets = calculateTotalTweets
     val tweetsPerSecond = if (secondsBetween != 0) totalTweets / secondsBetween else 0
     val tweetsPerMinute = tweetsPerSecond * 60
@@ -65,27 +66,27 @@ object ReportBuilder {
     val ht = for {
       h <- items.values
       m <- h.values
-      s <- m.values
+      s <- m.values().asScala
     } yield s
 
     ht.sum
   }
 
-  private def calculateOccurrenceItem(items: RollingTimeSeriesMetrics.Values[scala.collection.mutable.Map[String, Long]]) = {
+  private def calculateOccurrenceItem(items: RollingTimeSeriesMetrics.Values[ConcurrentHashMap[String, Long]]) = {
     val ht = for {
       h <- items.values
       m <- h.values
-      s <- m.values
+      s <- m.values().asScala
     } yield s
 
-    ht.filter(m => m.size != 0).flatten.foldLeft(Map[String, Long]() withDefaultValue 0L) { (acc, m) => acc + (m._1 -> (acc(m._1) + m._2)) }
+    ht.filter(item => item.size != 0).map(m => m.asScala).flatten.foldLeft(Map[String, Long]() withDefaultValue 0L) { (acc, _val) => acc + (_val._1 -> (acc(_val._1) + _val._2)) }
   }
 
   private def calculateTotalTweets: Long = {
     val tweets = for {
       h <- timeSeriesData.tweets.values.values
       m <- h.values
-      s <- m.values
+      s <- m.values().asScala
     } yield s
 
     tweets.sum

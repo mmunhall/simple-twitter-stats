@@ -1,8 +1,8 @@
 package com.mikemunhall.simpletwitterstats.model.metrics
 
 import java.time.LocalDateTime
-
 import com.mikemunhall.simpletwitterstats.model.UnitSpec
+import collection.JavaConverters._
 
 class RollingTimeSeriesMetricsSpec extends UnitSpec {
 
@@ -17,8 +17,8 @@ class RollingTimeSeriesMetricsSpec extends UnitSpec {
       underTest.values(n) should have size 60
       underTest.values(n).keys.foreach(m => {
         underTest.values(n)(m) should have size 60
-        underTest.values(n)(m).keys.foreach(o => {
-          underTest.values(n)(m)(0) shouldBe 22
+        underTest.values(n)(m).keys().asScala.foreach(o => {
+          underTest.values(n)(m).get(0) shouldBe 22
         })
       })
     })

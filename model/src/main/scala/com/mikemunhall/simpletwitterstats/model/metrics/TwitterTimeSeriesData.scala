@@ -1,6 +1,8 @@
 package com.mikemunhall.simpletwitterstats.model.metrics
 
 import java.time.LocalDateTime
+import java.util.concurrent.ConcurrentHashMap
+
 import scala.collection.mutable
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,9 +24,9 @@ class TwitterTimeSeriesData extends RollingDateTimeCalculations{
   val tweetsWithUrls = new ListLenCounterRollingTimeSeriesMetrics("tweetsWithUrls", () => 0l)
   val tweetsWithHashtags = new ListLenCounterRollingTimeSeriesMetrics("tweetsWithHashtags", () => 0l)
   val tweetsWithPhotoUrls = new ListLenCounterRollingTimeSeriesMetrics("tweetsWithPhotoUrls", () => 0l)
-  val emojis = new OccurrenceRollingTimeSeriesMetrics("emojis", () => mutable.Map[String, Long]())
-  val hashtags = new OccurrenceRollingTimeSeriesMetrics("hashtags", () => mutable.Map[String, Long]())
-  val domains = new OccurrenceRollingTimeSeriesMetrics("domains", () => mutable.Map[String, Long]())
+  val emojis = new OccurrenceRollingTimeSeriesMetrics("emojis", () => new ConcurrentHashMap[String, Long]())
+  val hashtags = new OccurrenceRollingTimeSeriesMetrics("hashtags", () => new ConcurrentHashMap[String, Long]())
+  val domains = new OccurrenceRollingTimeSeriesMetrics("domains", () => new ConcurrentHashMap[String, Long]())
 
   def add(tweet: Tweet) = {
     val f1 = Future {
