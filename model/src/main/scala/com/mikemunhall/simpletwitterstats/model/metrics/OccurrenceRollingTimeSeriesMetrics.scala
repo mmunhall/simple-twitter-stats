@@ -20,13 +20,6 @@ class OccurrenceRollingTimeSeriesMetrics[`ConcurrentHashMap[String, Long]`](labe
     obj.asInstanceOf[List[String]].foreach(item => {
       values(timestamp.getHour)(timestamp.getMinute).get(timestamp.getSecond).putIfAbsent(item, 0)
       values(timestamp.getHour)(timestamp.getMinute).get(timestamp.getSecond).compute(item, fn)
-    }
-
-        //values(timestamp.getHour)(timestamp.getMinute).get(timestamp.getSecond).putIfAbsent(item, 0)
-//      values(timestamp.getHour)(timestamp.getMinute).get(timestamp.getSecond).get(item) match {
-//        case None => values(timestamp.getHour)(timestamp.getMinute)(timestamp.getSecond)(item) = 1
-//        case Some(_) => values(timestamp.getHour)(timestamp.getMinute)(timestamp.getSecond)(item) += 1
-//      }
-    )
+    })
   }
 }

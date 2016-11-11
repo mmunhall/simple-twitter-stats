@@ -1,6 +1,7 @@
 package com.mikemunhall.simpletwitterstats.server
 
-import akka.actor.ActorSystem
+import akka.actor.{ActorSystem, Props}
+import akka.routing.FromConfig
 import com.mikemunhall.simpletwitterstats.Settings
 import com.mikemunhall.simpletwitterstats.api.APIService
 import com.mikemunhall.simpletwitterstats.server.twitter.client.BasicTwitterClient
@@ -14,8 +15,7 @@ object Main extends App with StrictLogging {
   implicit val system = ActorSystem("simple-twitter-stats")
   val settings = Settings(system)
 
-  // Start Twitter client
-  val parsingActor = system.actorOf(ParsingActor.props, "parsingActor")
+  val parsingActor = system.actorOf(FromConfig.props(Props(classOf[ParsingActor])), "parsingActor")
   val twitterClient = BasicTwitterClient(parsingActor, settings)
   val apiService = new APIService()
 

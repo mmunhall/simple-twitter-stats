@@ -7,7 +7,6 @@ import com.typesafe.scalalogging.StrictLogging
 import twitter4j.Status
 
 object ParsingActor {
-  def props = Props[ParsingActor]
   case class Parse(status: Status)
 }
 
